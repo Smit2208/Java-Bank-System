@@ -1,0 +1,35 @@
+nohup: ignoring input
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.18)
+
+2025-12-27 02:51:26.934  INFO 90536 --- [           main] c.e.banksystem.BankSystemApplication     : Starting BankSystemApplication v0.0.1-SNAPSHOT using Java 11.0.14.1 on codespaces-da8158 with PID 90536 (/workspaces/Java-Bank-System/target/bank-system-0.0.1-SNAPSHOT.jar started by codespace in /workspaces/Java-Bank-System)
+2025-12-27 02:51:26.940  INFO 90536 --- [           main] c.e.banksystem.BankSystemApplication     : No active profile set, falling back to 1 default profile: "default"
+2025-12-27 02:51:29.577  INFO 90536 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-27 02:51:29.638  INFO 90536 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 JPA repository interfaces.
+2025-12-27 02:51:31.505  INFO 90536 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2025-12-27 02:51:31.554  INFO 90536 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-27 02:51:31.555  INFO 90536 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.83]
+2025-12-27 02:51:31.874  INFO 90536 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-27 02:51:31.876  INFO 90536 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4767 ms
+2025-12-27 02:51:32.372  INFO 90536 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-27 02:51:32.963  INFO 90536 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-27 02:51:33.127  INFO 90536 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-27 02:51:33.354  INFO 90536 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.15.Final
+2025-12-27 02:51:33.773  INFO 90536 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-12-27 02:51:34.091  INFO 90536 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2025-12-27 02:51:34.703  INFO 90536 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-12-27 02:51:34.734  INFO 90536 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-27 02:51:34.927  WARN 90536 --- [           main] o.s.security.core.userdetails.User       : User.withDefaultPasswordEncoder() is considered unsafe for production and is only intended for sample applications.
+2025-12-27 02:51:35.488  INFO 90536 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4912d525, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2bfbffb2, org.springframework.security.web.context.SecurityContextPersistenceFilter@3a627c80, org.springframework.security.web.header.HeaderWriterFilter@67dba613, org.springframework.security.web.authentication.logout.LogoutFilter@444548a0, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@963176, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@65004ff6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@765df79d, org.springframework.security.web.session.SessionManagementFilter@ecfbe91, org.springframework.security.web.access.ExceptionTranslationFilter@7bde1f3a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@388b401d]
+2025-12-27 02:51:35.612  WARN 90536 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-27 02:51:36.716  INFO 90536 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2025-12-27 02:51:36.769  INFO 90536 --- [           main] c.e.banksystem.BankSystemApplication     : Started BankSystemApplication in 11.304 seconds (JVM running for 12.03)
+2025-12-27 02:51:44.724  INFO 90536 --- [0.0-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-27 02:51:44.725  INFO 90536 --- [0.0-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-27 02:51:44.728  INFO 90536 --- [0.0-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms

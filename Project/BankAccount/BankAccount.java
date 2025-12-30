@@ -11,18 +11,20 @@ public class BankAccount implements Serializable {
     private long accountNumber;
     private String password;
     private int balance;
+    private String accountType;
     private List<String> transactions = new ArrayList<>();
 
-    public BankAccount(long accountNumber, String password, int initialFunds) {
+    public BankAccount(long accountNumber, String password, int initialFunds, String accountType) {
         this.accountNumber = accountNumber;
         this.password = password;
         this.balance = initialFunds;
-        transactions.add("Account opened | Balance: $" + balance);
+        this.accountType = accountType;
+        transactions.add("Account opened | Balance: $" + balance + " | Type: " + accountType);
     }
 
-    public static BankAccount createNewAccount(String password, int initialFunds) throws IOException {
+    public static BankAccount createNewAccount(String password, int initialFunds, String accountType) throws IOException {
         long acct = generateAccountNumber();
-        BankAccount account = new BankAccount(acct, password, initialFunds);
+        BankAccount account = new BankAccount(acct, password, initialFunds, accountType);
         account.save();
         return account;
     }
@@ -81,6 +83,10 @@ public class BankAccount implements Serializable {
 
     public long getAccountNumber() {
         return accountNumber;
+    }
+
+    public String getAccountType() {
+        return accountType;
     }
 
     private static long generateAccountNumber() {
