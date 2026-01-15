@@ -61,8 +61,37 @@ public class BankAccount implements Serializable {
         return balance;
     }
 
-    public int getBalance() {
+    public synchronized int transfer(long toAccountNumber, int amount) throws BankAccountException, IOException, ClassNotFoundException {
+        if (amount <= 0) throw new BankAccountException("Transfer amount must be greater than zero.");
+        if (balance < amount) throw new BankAccountException("Insufficient funds. Current balance: $" + balance);
+        if (toAccountNumber == accountNumber) throw new BankAccountException("Cannot transfer to the same account.");
+
+        BankAccount toAccount = loadAccount(toAccountNumber);
+        balance -= amount;
+        toAccount.balance += amount;
+
+        transactions.add("Transfer out: $" + amount + " to " + toAccountNumber + " | Balance: $" + balance);
+        toAccount.transactions.add("Transfer in: $" + amount + " from " + accountNumber + " | Balance: $" + toAccount.balance);
+
+        save();
+        toAccount.save();
         return balance;
+    }
+
+    public synchronized void calculateInterest() throws IOException {
+        if ("Saving".equals(accountType) && balance > 0) {
+            double interestRate = 0.02; // 2% annual interest
+            int interest = (int) (balance * interestRate / 12); // Monthly interest
+            if (interest > 0) {
+                balance += interest;
+                transactions.add("Interest: $" + interest + " | Balance: $" + balance);
+                save();
+            }
+        }
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public List<String> getTransactionHistory() {
@@ -87,6 +116,51 @@ public class BankAccount implements Serializable {
 
     public String getAccountType() {
         return accountType;
+    }
+
+    public synchronized int transfer(long toAccountNumber, int amount) throws BankAccountException, IOException, ClassNotFoundException {
+        if (amount <= 0) throw new BankAccountException("Transfer amount must be greater than zero.");
+        if (balance < amount) throw new BankAccountException("Insufficient funds. Current balance: $" + balance);
+        if (toAccountNumber == accountNumber) throw new BankAccountException("Cannot transfer to the same account.");
+
+        BankAccount toAccount = loadAccount(toAccountNumber);
+        balance -= amount;
+        toAccount.balance += amount;
+
+        transactions.add("Transfer out: $" + amount + " to " + toAccountNumber + " | Balance: $" + balance);
+        toAccount.transactions.add("Transfer in: $" + amount + " from " + accountNumber + " | Balance: $" + toAccount.balance);
+
+        save();
+        toAccount.save();
+        return balance;
+    }
+
+    public void changePassword(String newPassword) throws IOException {
+        this.password = newPassword;
+        transactions.add("Password changed");
+        save();
+    }
+
+    public synchronized void calculateInterest() throws IOException {
+        if ("Saving".equals(accountType) && balance > 0) {
+            double interestRate = 0.02; // 2% annual interest
+            int interest = (int) (balance * interestRate / 12); // Monthly interest
+            if (interest > 0) {
+                balance += interest;
+                transactions.add("Interest: $" + interest + " | Balance: $" + balance);
+                save();
+            }
+        }
+    }
+
+    public synchronized int payBill(String billType, int amount) throws BankAccountException, IOException {
+        if (amount <= 0) throw new BankAccountException("Bill amount must be greater than zero.");
+        if (balance < amount) throw new BankAccountException("Insufficient funds. Current balance: $" + balance);
+
+        balance -= amount;
+        transactions.add("Bill Payment: " + billType + " - $" + amount + " | Balance: $" + balance);
+        save();
+        return balance;
     }
 
     private static long generateAccountNumber() {

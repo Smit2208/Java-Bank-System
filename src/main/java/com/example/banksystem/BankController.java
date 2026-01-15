@@ -1,7 +1,7 @@
 package com.example.banksystem;
 
-import Project.BankAccount.BankAccount;
-import Project.BankAccount.BankAccountException;
+import com.example.banksystem.bankaccount.BankAccount;
+import com.example.banksystem.bankaccount.BankAccountException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,6 +62,12 @@ public class BankController {
         BankAccount account = (BankAccount) session.getAttribute("account");
         if (account == null) {
             return "redirect:/";
+        }
+        // Calculate interest for savings accounts
+        try {
+            account.calculateInterest();
+        } catch (IOException e) {
+            // Log error, but don't show to user
         }
         model.addAttribute("account", account);
         return "dashboard";
@@ -138,8 +144,54 @@ public class BankController {
         return "home";
     }
 
+    @PostMapping("/payBill")
+    public String payBill(@RequestParam String billType, @RequestParam int amount, HttpSession session, Model model) {
+        BankAccount account = (BankAccount) session.getAttribute("account");
+        try {
+            account.payBill(billType, amount);
+            model.addAttribute("message", "Bill payment successful.");
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        model.addAttribute("account", account);
+        return "dashboard";
+    }
+
+    @GetMapping("/settings")
+    public String settings(HttpSession session, Model model) {
+        BankAccount account = (BankAccount) session.getAttribute("account");
+        if (account == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("account", account);
+        return "settings";
+    }
+
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestParam String currentPassword, @RequestParam String newPassword,
+                                 @RequestParam String confirmPassword, HttpSession session, Model model) {
+        BankAccount account = (BankAccount) session.getAttribute("account");
+        if (!account.checkPassword(currentPassword)) {
+            model.addAttribute("error", "Current password is incorrect.");
+        } else if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "New passwords do not match.");
+        } else if (newPassword.length() < 4) {
+            model.addAttribute("error", "New password must be at least 4 characters.");
+        } else {
+            try {
+                account.changePassword(newPassword);
+                model.addAttribute("message", "Password changed successfully.");
+            } catch (IOException e) {
+                model.addAttribute("error", "Error changing password.");
+            }
+        }
+        model.addAttribute("account", account);
+        return "settings";
+    }
+
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
-    }}
+    }
+}
