@@ -20,6 +20,11 @@ public class SecurityConfig {
             .authorizeRequests()
                 .anyRequest().permitAll()
             .and()
+            .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/?showCreate=false")
+                .permitAll()
+            .and()
             .csrf().disable();
         return http.build();
     }

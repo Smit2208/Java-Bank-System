@@ -15,9 +15,15 @@ import java.util.List;
 public class BankController {
 
     @GetMapping("/")
-    public String home(HttpSession session) {
+    public String home(@RequestParam(value = "showCreate", required = false) Boolean showCreate,
+                       HttpSession session, Model model) {
         if (session.getAttribute("account") != null) {
             return "redirect:/dashboard";
+        }
+        if (Boolean.TRUE.equals(showCreate)) {
+            model.addAttribute("showCreate", true);
+        } else {
+            model.addAttribute("showCreate", false);
         }
         return "home";
     }
@@ -123,7 +129,8 @@ public class BankController {
     @PostMapping("/close")
     public String close(HttpSession session, Model model) {
         BankAccount account = (BankAccount) session.getAttribute("account");
-        File file = new File("Project/data/account_" + account.getAccountNumber() + ".dat");
+        String userDir = System.getProperty("user.dir");
+        File file = new File(new File(userDir, "Project/data"), "account_" + account.getAccountNumber() + ".dat");
         if (file.exists()) {
             file.delete();
         }
@@ -192,6 +199,7 @@ public class BankController {
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/";
+        // Redirect to home and ensure the choice UI (existing/new) is shown with "existing" selected
+        return "redirect:/?showCreate=false";
     }
 }

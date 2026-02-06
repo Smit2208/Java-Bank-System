@@ -94,6 +94,10 @@ public class BankAccount implements Serializable {
         return password;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
     public List<String> getTransactionHistory() {
         return new ArrayList<>(transactions);
     }
@@ -118,39 +122,10 @@ public class BankAccount implements Serializable {
         return accountType;
     }
 
-    public synchronized int transfer(long toAccountNumber, int amount) throws BankAccountException, IOException, ClassNotFoundException {
-        if (amount <= 0) throw new BankAccountException("Transfer amount must be greater than zero.");
-        if (balance < amount) throw new BankAccountException("Insufficient funds. Current balance: $" + balance);
-        if (toAccountNumber == accountNumber) throw new BankAccountException("Cannot transfer to the same account.");
-
-        BankAccount toAccount = loadAccount(toAccountNumber);
-        balance -= amount;
-        toAccount.balance += amount;
-
-        transactions.add("Transfer out: $" + amount + " to " + toAccountNumber + " | Balance: $" + balance);
-        toAccount.transactions.add("Transfer in: $" + amount + " from " + accountNumber + " | Balance: $" + toAccount.balance);
-
-        save();
-        toAccount.save();
-        return balance;
-    }
-
     public void changePassword(String newPassword) throws IOException {
         this.password = newPassword;
         transactions.add("Password changed");
         save();
-    }
-
-    public synchronized void calculateInterest() throws IOException {
-        if ("Saving".equals(accountType) && balance > 0) {
-            double interestRate = 0.02; // 2% annual interest
-            int interest = (int) (balance * interestRate / 12); // Monthly interest
-            if (interest > 0) {
-                balance += interest;
-                transactions.add("Interest: $" + interest + " | Balance: $" + balance);
-                save();
-            }
-        }
     }
 
     public synchronized int payBill(String billType, int amount) throws BankAccountException, IOException {
@@ -170,7 +145,8 @@ public class BankAccount implements Serializable {
     }
 
     public void save() throws IOException {
-        File dir = new File("Project/data");
+        String userDir = System.getProperty("user.dir");
+        File dir = new File(userDir, "Project/data");
         if (!dir.exists()) dir.mkdirs();
         File file = dataFile(accountNumber);
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
@@ -179,6 +155,8 @@ public class BankAccount implements Serializable {
     }
 
     private static File dataFile(long accountNumber) {
-        return new File("Project/data/account_" + accountNumber + ".dat");
+        String userDir = System.getProperty("user.dir");
+        File dir = new File(userDir, "Project/data");
+        return new File(dir, "account_" + accountNumber + ".dat");
     }
 }
